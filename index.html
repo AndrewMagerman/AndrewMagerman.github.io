@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>Git workshop</title>
+    <link rel="stylesheet" href="./dist/reveal.css" />
+    <link rel="stylesheet" href="./dist/theme/league.css" id="theme" />
+    <link rel="stylesheet" href="./css/highlight/zenburn.css" />
+
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides"><section  data-markdown><script type="text/template">
+# beyond git guis
+## a plea to start using the CLI
+Learn from my pain
+</script></section><section  data-markdown><script type="text/template">
+<!-- .slide: data-background="infinity-gauntlet-stones.jpg" -->
+
+</script></section><section  data-markdown><script type="text/template">
+
+## git should be part of your toolbox
+
+* regular expressions
+* networking
+* __git__
+
+
+<aside class="notes"><p>I recently cleared up my library of books. I threw away many books pertaining to 
+technologies that are by now obsolete, like flash or ExtJS. There are some technologies, though,
+that are so fundamental that a solid knowledge is going to help you time and time 
+again.</p>
+</aside></script></section><section  data-markdown><script type="text/template">
+
+## Don't use git like a baby
+
+* SourceTree
+* GitKraken
+* embedded git engines
+* gitlab
+* github
+
+These 'helpers' make simple things trivial, and complicated things impossible
+</script></section><section  data-markdown><script type="text/template">
+
+## Disadvantages of git GUIs
+
+* not portable
+* force you to work 'their' way
+* hide or ignore the hidden gems
+* twist git so that it looks like a usual source control system</script></section><section  data-markdown><script type="text/template">
+
+
+
+## Advantages of git GUIs
+
+* super for branch visualisation
+* super for merging
+* hides or masks some of the inconsistencies
+
+</script></section><section  data-markdown><script type="text/template">
+## Once you start using git on the CLI
+
+* learn once, use everywhere
+* you can repair yourself out of the worst disasters
+* you can repair your colleague's disasters
+* git status is your friend and will teach you with helpful hints
+* your knowledge will not plateau
+
+</script></section><section  data-markdown><script type="text/template">
+
+## Major stumbling blocks
+
+* git is decentralized.
+    * there is **no** central repository
+* the naming of functions is horrible
+
+</script></section><section  data-markdown><script type="text/template">
+# Essentials
+</script></section><section  data-markdown><script type="text/template">
+## Grokking commits
+
+![asdfasd](branch_diagram_white.png)
+* a tree of commits
+* every commit is a snapshot of your whole code
+* commits point to their ancestor
+    * merge commits have two ancestors
+    * initial commit has none
+* a branch is just a pointer to a commit
+
+</script></section><section  data-markdown><script type="text/template">
+## Understand your buckets
+© Steven Bennet
+
+![asdfasd](git-arrows31.png)<!-- .element: height="500px" -->
+</script></section><section  data-markdown><script type="text/template">
+## Understand your buckets
+
+your **working directory** is a sandbox. 
+
+The files are not important. 
+
+This is upsetting.
+
+
+</script></section><section  data-markdown><script type="text/template">
+# Completely confusing
+## Am I dumb or is this completely confusing?
+</script></section><section  data-markdown><script type="text/template">
+# Completely confusing
+## Coming from another source control system
+</script></section><section  data-markdown><script type="text/template">
+## git is not your grandma's source control
+
+* git is decentralized.
+    * there is **no** central repository
+    * git guis try to recreate this
+* `git checkout` doesn't mean checkout
+    * (in the sense 'reserve for me')
+* your local repository contains all the commits of the remotes
+    * e.g. `origin/develop` sits next to your **local** `master`
+
+</script></section><section  data-markdown><script type="text/template"># Completely confusing
+## Confusing commands
+</script></section><section  data-markdown><script type="text/template">
+
+
+Most confusing command is
+
+```shell
+$ git checkout
+```
+* completely overloaded
+    * switch from one branch to another
+    * create a new branch and switch to it
+    * copy files from one branch to another branch
+* NOT 'reserve this file so only I can modify it'
+
+
+</script></section><section  data-markdown><script type="text/template">
+```shell
+$ git checkout feature/new_function
+```
+
+switch current branch to `feature/new_function`
+
+</script></section><section  data-markdown><script type="text/template">
+```shell
+$ git checkout -b feature/experimental_regex
+```
+
+equivalent to 
+
+```shell
+$ git branch feature/experimental_regex # create new branch
+$ git checkout feature/experimental_regex # switch to it
+```
+</script></section><section  data-markdown><script type="text/template">
+```shell
+$ git checkout --track origin/feature/new_from_colleague
+```
+
+equivalent to 
+
+'copy' a branch from a remote onto your local one
+
+</script></section><section  data-markdown><script type="text/template">
+```shell
+$ git checkout my_friends_branch -- app/img/
+```
+
+copies all the files from the directory `app/img` of 
+
+`my_friends_branch` into **my** working directory
+
+</script></section><section  data-markdown><script type="text/template">
+```shell
+$ git checkout .
+```
+
+Overwrite my working directory with the latest commit
+
+</script></section><section  data-markdown><script type="text/template">
+```shell
+$ git checkout -
+```
+
+switch branch to the latest one I was using
+
+</script></section><section  data-markdown><script type="text/template"># Beelzebub's corner
+</script></section><section  data-markdown><script type="text/template">
+```shell
+$ git revert
+```
+
+truly evil.
+
+Does not rollback your changes. Instead, creates a new commit to
+cancel out your changes.
+
+</script></section><section  data-markdown><script type="text/template">
+```shell
+$ git rebase
+$ git push --force
+```
+
+Can really upset your colleagues. You're rewriting their history.
+
+</script></section><section  data-markdown><script type="text/template">
+```shell
+$ git reset --hard
+```
+
+Will completely overwrite your working directory. Sharp knife!
+
+</script></section><section  data-markdown><script type="text/template"># Superpowers
+
+</script></section><section  data-markdown><script type="text/template">## git time machine
+
+```shell
+$ git reflog # where do I want to go
+```
+
+```shell
+$ git reset HEAD@{2}
+```
+</script></section><section  data-markdown><script type="text/template">## Your commits as a loose list of *changes*
+
+You start getting superpowers when you start understanding that commits
+should not be a tightly-linked list of chronological changes
+
+When you make good commits which represents ideas/changes...
+
+```shell
+$ git cherry-pick
+```
+
+is wonderful
+
+</script></section><section  data-markdown><script type="text/template">## using Hunks
+
+Hunks:
+craft your commits to include only certain combinations and parts of files
+
+
+```shell
+$ git add -p
+```
+
+or
+
+```shell
+$ git commit -p
+``` 
+
+</script></section><section  data-markdown><script type="text/template">## rewrite your local history
+
+```shell
+$ git rebase -i
+```
+
+Interactive rebase. Beautiful!
+
+</script></section><section  data-markdown><script type="text/template">## cleanup your working directory
+
+```shell
+$ git clean -f -d
+```
+</script></section><section  data-markdown><script type="text/template">
+Thanks to my git mentor, Pablo a.k.a escodebar
+
+</script></section><section  data-markdown><script type="text/template">
+
+## Resources
+
+* [10 things I hate about Git](https://stevebennett.me/2012/02/24/10-things-i-hate-about-git/)
+* [Cynefin](https://cognitive-edge.com/videos/cynefin-framework-introduction/)
+* [Git Magic](http://www-cs-students.stanford.edu/~blynn/gitmagic/ch08.html)
+* [Git Reference](https://git-scm.com/docs/)
+* [Git is simpler](http://nfarina.com/post/9868516270/git-is-simpler)
+* [Oh shit Git!](https://ohshitgit.com/)
+* [Pro Git](https://git-scm.com/book/en/v2)
+* [The thing about Git](https://tomayko.com/blog/2008/the-thing-about-git)
+* [Think like a Git](http://think-like-a-git.net/)
+* [Why Git is Better than X](http://web.archive.org/web/20090210020404id_/http://whygitisbetterthanx.com/#the-staging-area)
+</script></section><section  data-markdown><script type="text/template">
+## Questions & Feedback
+</script></section><section  data-markdown><script type="text/template">
+ 
+</script></section></div>
+    </div>
+
+    <script src="./dist/reveal.js"></script>
+
+    <script src="./plugin/markdown/markdown.js"></script>
+    <script src="./plugin/highlight/highlight.js"></script>
+    <script src="./plugin/zoom/zoom.js"></script>
+    <script src="./plugin/notes/notes.js"></script>
+    <script src="./plugin/math/math.js"></script>
+    <script>
+      function extend() {
+        var target = {};
+        for (var i = 0; i < arguments.length; i++) {
+          var source = arguments[i];
+          for (var key in source) {
+            if (source.hasOwnProperty(key)) {
+              target[key] = source[key];
+            }
+          }
+        }
+        return target;
+      }
+
+      // default options to init reveal.js
+      var defaultOptions = {
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        plugins: [
+          RevealMarkdown,
+          RevealHighlight,
+          RevealZoom,
+          RevealNotes,
+          RevealMath
+        ]
+      };
+
+      // options from URL query string
+      var queryOptions = Reveal().getQueryHash() || {};
+
+      var options = extend(defaultOptions, {"transition":"fade"}, queryOptions);
+    </script>
+
+
+    <script>
+      Reveal.initialize(options);
+    </script>
+  </body>
+</html>
